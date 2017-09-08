@@ -14,11 +14,13 @@ var path = group.append("path")
     .attr("stroke-linecap", "round");
 
 var length = path.node().getTotalLength();
+console.log('length', length);
 var gap = 20;
+console.log('gap', gap);
 var noOfArrows = parseInt(length / gap);
+console.log('number of arrows', noOfArrows);
 
 var duration = 5000;
-var delay = duration / noOfArrows;
 
 var arrow = group.selectAll("circle")
     .data(d3.range(0, noOfArrows))
@@ -41,13 +43,12 @@ function transition() {
 }
 
 function translateAlongPath(path) {
-    var l = path.getTotalLength();
     return function (d, i, a) {
 
         return function (t) {
-            var t2 = t + 0.1 * d;
-            var length = t2 * l % l;
-            var point = path.getPointAtLength(length);
+            var tOfThisArrow = t + (1/noOfArrows) * i;
+            var l = (tOfThisArrow * length) % length;
+            var point = path.getPointAtLength(l);
             return "translate(" + point.x + ", " + point.y + ")";
         };
 
