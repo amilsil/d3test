@@ -17,7 +17,7 @@ var length = path.node().getTotalLength();
 var gap = 50;
 var noOfArrows = parseInt(length / gap) + 1;
 
-var duration = 500;
+var duration = 2000;
 var delay = duration / noOfArrows;
 
 var arrow = group.selectAll("path")
@@ -28,32 +28,28 @@ var arrow = group.selectAll("path")
         .attr("fill", "none")
         .attr("stroke", "red")
         .attr("stroke-width", "4")
-        .attr("stroke-linecap", "round")
-        .call(transition, true);
+        .attr("stroke-linecap", "round");
 
-function transition(path, firstTime) {
-    var p = path.transition()
-        .duration(duration);
-    
-    if(firstTime) {
-        p = p.delay(function(d, i) { return d * delay });
-    }
+transition();
 
-    p.ease(d3.easeLinear)
-    .attrTween("transform", translateAlongPath)
-    .on("end", function () { d3.select(this).call(transition, false); });
+function transition() {
+    var p = arrow.transition()
+        .duration(duration)
+        .ease(d3.easeLinear)
+        .attrTween("transform", translateAlongPath(path.node()))
+        .on("end", function () { d3.select(this).call(transition, false); });
 }
 
-function translateAlongPath(d, i, a) {
-
-    var l = gap * d,
-        i = d3.interpolateNumber(gap * (d -1), gap * d);
-
-    return function (time) { 
-        var number = i(time); 
-        var p1 = path.node().getPointAtLength(number);
-        var p2 = path.node().getPointAtLength(number + 1);
+function translateAlongPath(path) {
+    var l = path.getTotalLength();
+    return function(d, i, a) {
+      return function(t) {
+        var p = path.getPointAtLength(t * l);
+        
+        var p1 = path.getPointAtLength(t * l);
+        var p2 = path.getPointAtLength(t * l + 0.01);
         var angle = 90 + Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
         return "translate(" + p1.x + ", " + p1.y + ") rotate(" + angle + ")";
+      };
     };
 }
