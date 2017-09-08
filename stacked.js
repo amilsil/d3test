@@ -14,21 +14,21 @@ var path = group.append("path")
     .attr("stroke-linecap", "round");
 
 var length = path.node().getTotalLength();
-var gap = 50;
-var noOfArrows = parseInt(length / gap) + 1;
+var gap = 20;
+var noOfArrows = parseInt(length / gap);
 
-var duration = 2000;
+var duration = 5000;
 var delay = duration / noOfArrows;
 
-var arrow = group.selectAll("path")
+var arrow = group.selectAll("circle")
     .data(d3.range(0, noOfArrows))
     .enter()
-    .append("path")
-        .attr("d", "M-8 12, 0 0, 8 12")
-        .attr("fill", "none")
-        .attr("stroke", "red")
-        .attr("stroke-width", "4")
-        .attr("stroke-linecap", "round");
+    .append("circle")
+    .attr("r", 5)
+    .attr("fill", "white")
+    .attr("stroke", "red")
+    .attr("stroke-width", "2")
+    .attr("stroke-linecap", "round");
 
 transition();
 
@@ -42,14 +42,14 @@ function transition() {
 
 function translateAlongPath(path) {
     var l = path.getTotalLength();
-    return function(d, i, a) {
-      return function(t) {
-        var p = path.getPointAtLength(t * l);
-        
-        var p1 = path.getPointAtLength(t * l);
-        var p2 = path.getPointAtLength(t * l + 0.01);
-        var angle = 90 + Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
-        return "translate(" + p1.x + ", " + p1.y + ") rotate(" + angle + ")";
-      };
+    return function (d, i, a) {
+
+        return function (t) {
+            var t2 = t + 0.1 * d;
+            var length = t2 * l % l;
+            var point = path.getPointAtLength(length);
+            return "translate(" + point.x + ", " + point.y + ")";
+        };
+
     };
 }
