@@ -1,0 +1,23 @@
+.solar {
+    fill: #39b54a;
+}
+
+.battery {
+    fill: #00adee;
+}
+
+.minigrid {
+    fill: #a67c52;
+}
+
+.inactive-flow {
+    fill: #bbbbbb;
+}
+
+.community {
+    fill: #f7931e;
+}
+
+.house {
+    fill: #d1447b;
+}
