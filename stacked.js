@@ -4,7 +4,8 @@ var svg = d3.select("body").append("svg")
 
 function renderMinigrid() {
     var icon1Group = svg.append("g")
-        .attr('class', 'minigrid');
+        .classed('minigrid', true)
+        .classed('icon', true);
     icon1Group.append("path")
         .attr("d", "M376.42,480.15H346.34a1.4,1.4,0,0,1-1.4-1.4V477a1.4,1.4,0,0,1,0-.29l8.85-42.47a1.4,1.4,0,0,1,1.37-1.11h12.39a1.4,1.4,0,0,1,1.37,1.11l8.85,42.47a1.4,1.4,0,0,1,0,.29v1.77A1.4,1.4,0,0,1,376.42,480.15Zm-28.69-2.79H375v-.23l-8.59-41.22H356.32l-8.59,41.22Z")
     icon1Group.append("path")
@@ -21,7 +22,8 @@ function renderMinigrid() {
 
 function renderHouse() {
     var icon1Group = svg.append("g")
-        .attr('class', 'house');
+        .classed('house', true)
+        .classed('icon', true);
     icon1Group.append("path")
         .attr("d", "M307.6,336a2.33,2.33,0,0,1-2.33-2.33V259.24L254.5,227.15l-50.76,32.09v74.39a2.33,2.33,0,1,1-4.67,0V258a2.33,2.33,0,0,1,1.09-2l53.1-33.57a2.33,2.33,0,0,1,2.5,0L308.84,256a2.33,2.33,0,0,1,1.09,2v75.68A2.33,2.33,0,0,1,307.6,336Z")
     icon1Group.append("path")
@@ -30,7 +32,8 @@ function renderHouse() {
 
 function renderSolar() {
     var icon1Group = svg.append("g")
-        .attr('class', 'solar');
+        .classed('solar', true)
+        .classed('icon', true);
     icon1Group.append("path")
         .attr("d", "M119.85,165.92a12.66,12.66,0,1,1,12.66-12.66A12.67,12.67,0,0,1,119.85,165.92Zm0-22a9.34,9.34,0,1,0,9.34,9.34A9.35,9.35,0,0,0,119.85,143.92Z");
     icon1Group.append("path")
@@ -53,7 +56,8 @@ function renderSolar() {
 
 function renderBattery() {
     var icon1Group = svg.append("g")
-        .attr('class', 'battery');
+        .classed('battery', true)
+        .classed('icon', true);
     icon1Group.append("path")
         .attr("d", "M150.17,479.21H77.4a1.5,1.5,0,0,1-1.5-1.5v-41.4a1.5,1.5,0,0,1,1.5-1.5h72.77a1.5,1.5,0,0,1,1.5,1.5v4.13h7.91a1.5,1.5,0,0,1,1.5,1.5v6.37h5.23a1.5,1.5,0,0,1,1.5,1.5v14.43a1.5,1.5,0,0,1-1.5,1.5h-5.23v6.35a1.5,1.5,0,0,1-1.5,1.5h-7.91v4.13A1.5,1.5,0,0,1,150.17,479.21Zm-71.27-3h69.77v-4.13a1.5,1.5,0,0,1,1.5-1.5h7.91v-6.35a1.5,1.5,0,0,1,1.5-1.5h5.23V451.3h-5.23a1.5,1.5,0,0,1-1.5-1.5v-6.37h-7.91a1.5,1.5,0,0,1-1.5-1.5v-4.13H78.9Z");
     icon1Group.append("path")
@@ -64,7 +68,8 @@ function renderBattery() {
 
 function renderCommunity() {
     var icon1Group = svg.append("g")
-        .attr('class', 'community');
+        .classed('community', true)
+        .classed('icon', true);
     icon1Group.append("path")
         .attr("d", "M367,189.84a1.39,1.39,0,0,1-1.39-1.39V173.11l-11.78-6.41-11.78,6.41v15.33a1.39,1.39,0,0,1-2.78,0V172.29a1.39,1.39,0,0,1,.73-1.22l13.17-7.17a1.4,1.4,0,0,1,1.33,0l13.17,7.17a1.39,1.39,0,0,1,.73,1.22v16.16A1.39,1.39,0,0,1,367,189.84Z");
     icon1Group.append("path")
@@ -150,7 +155,7 @@ function renderBatteryFlow(speed, reverse) {
     var flow = group.append('path')
         .attr('d', 'M 0 0, V 70, C 0 100, 0 100, 30 100, H 60')
 
-    renderOneFlow(group, flow, 30, speed, reverse);
+    renderOneFlow(group, flow, speed, reverse);
 }
 
 function renderExportFlow(speed) {
@@ -162,7 +167,7 @@ function renderExportFlow(speed) {
     var flow = group.append('path')
         .attr('d', 'M 0 0, V 70, C 0 100, 0 100, 30 100, H 60')
 
-    renderOneFlow(group, flow, speed);
+    renderOneFlow(group, flow, speed, true);
 }
 
 function renderGridFlow(speed) {
