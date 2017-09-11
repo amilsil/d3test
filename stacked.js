@@ -5,7 +5,7 @@ var svg = d3.select("body").append("svg")
 var timeTakenPerPixel = 20;
 var gap = 20;
 
-function renderOneFlow(group, path) {
+function renderOneFlow(group, path, reverse) {
     
     function transition() {
         var p = circleSel.transition()
@@ -19,6 +19,9 @@ function renderOneFlow(group, path) {
         return function (d, i, a) {
 
             return function (timeFraction) {
+                if(reverse) {
+                    timeFraction = 1 - timeFraction;
+                }
                 var tOfThisArrow = timeFraction + (1 / noOfArrows) * i;
                 var l = (tOfThisArrow * length) % length;
                 var point = path.getPointAtLength(l);
@@ -65,13 +68,13 @@ function render() {
     .attr("transform", "translate(200,150)");
 
     var flow2Path = flow2Group.append("path")
-        .attr("d", "M 0 0, V 100, C 0 150, 0 150, 50 150, V 400")
+        .attr("d", "M 0 0, V 100, C 0 150, 0 150, 50 150, H 400")
         .attr("fill", "none")
         .attr("stroke", "red")
         .attr("stroke-width", "4")
         .attr("stroke-linecap", "round");
 
-    renderOneFlow(flow2Group, flow2Path);
+    renderOneFlow(flow2Group, flow2Path, true);
 }
 
 render();
