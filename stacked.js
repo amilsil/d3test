@@ -6,8 +6,7 @@ var group = svg.append("g")
     .attr("transform", "translate(100,100)");
 
 var path = group.append("path")
-    .attr("d", "M 0 0, V 100, C 0 150, 0 150, 50 150, H 100")
-    //.attr("d", "M 0 0, V 300")
+    .attr("d", "M 0 0, V 100, C 0 150, 0 150, 50 150, H 400")
     .attr("fill", "none")
     .attr("stroke", "red")
     .attr("stroke-width", "4")
@@ -20,7 +19,8 @@ console.log('gap', gap);
 var noOfArrows = parseInt(length / gap);
 console.log('number of arrows', noOfArrows);
 
-var duration = 5000;
+var timeTakenPerPixel = 20;
+var duration = length * timeTakenPerPixel;
 
 var arrow = group.selectAll("circle")
     .data(d3.range(0, noOfArrows))
@@ -45,8 +45,8 @@ function transition() {
 function translateAlongPath(path) {
     return function (d, i, a) {
 
-        return function (t) {
-            var tOfThisArrow = t + (1/noOfArrows) * i;
+        return function (timeFraction) {
+            var tOfThisArrow = timeFraction + (1/noOfArrows) * i;
             var l = (tOfThisArrow * length) % length;
             var point = path.getPointAtLength(l);
             return "translate(" + point.x + ", " + point.y + ")";
