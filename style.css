@@ -1,23 +1,40 @@
 .solar {
     fill: #39b54a;
+    stroke: #39b54a;
 }
 
 .battery {
     fill: #00adee;
+    stroke: #00adee;
 }
 
 .minigrid {
     fill: #a67c52;
+    stroke: #a67c52;
 }
 
 .inactive-flow {
     fill: #bbbbbb;
+    stroke: #bbbbbb;
 }
 
 .community {
     fill: #f7931e;
+    stroke: #f7931e;
 }
 
 .house {
     fill: #d1447b;
+}
+
+.flow {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+}
+
+.circle {
+    fill: #fff;
+    stroke-width: 1;
+    stroke-linecap: round;
 }

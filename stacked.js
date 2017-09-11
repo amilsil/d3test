@@ -76,7 +76,7 @@ function renderCommunity() {
     icon1Group.append("path")
         .attr("d", "M403.21,162.16a1.39,1.39,0,0,1-1.39-1.39V145.44L390,139l-11.78,6.41V149a1.39,1.39,0,0,1-2.78,0v-4.41a1.39,1.39,0,0,1,.73-1.22l13.17-7.17a1.4,1.4,0,0,1,1.33,0l13.17,7.17a1.39,1.39,0,0,1,.73,1.22v16.16A1.39,1.39,0,0,1,403.21,162.16Z");
     icon1Group.append("path")
-        .attr("d", "M371.35,144.19a1.39,1.39,0,0,1-.67-2.61l18.68-10.16a1.4,1.4,0,0,1,1.33,0l18.68,10.16a1.39,1.39,0,1,1-1.33,2.44l-18-9.8L372,144A1.38,1.38,0,0,1,371.35,144.19Z"    );
+        .attr("d", "M371.35,144.19a1.39,1.39,0,0,1-.67-2.61l18.68-10.16a1.4,1.4,0,0,1,1.33,0l18.68,10.16a1.39,1.39,0,1,1-1.33,2.44l-18-9.8L372,144A1.38,1.38,0,0,1,371.35,144.19Z");
     icon1Group.append("path")
         .attr("d", "M423.84,186.81a1.5,1.5,0,0,1-1.5-1.5V127.69a1.5,1.5,0,0,1,3,0v57.62A1.5,1.5,0,0,1,423.84,186.81Z");
     icon1Group.append("path")
@@ -86,7 +86,7 @@ function renderCommunity() {
 }
 
 var timeTakenPerPixel = 20;
-var gap = 20;
+var gap = 15;
 
 function renderOneFlow(group, path, speed, reverse) {
 
@@ -116,54 +116,79 @@ function renderOneFlow(group, path, speed, reverse) {
 
     var length = path.node().getTotalLength();
     var noOfArrows = parseInt(length / gap);
-    var timeTakenPerPixel = gap * 10 / speed;
+    var timeTakenPerPixel = 1000 / speed;
     var duration = length * timeTakenPerPixel;
 
     var circleSel = group.selectAll("circle")
         .data(d3.range(0, noOfArrows))
         .enter()
         .append("circle")
-        .attr("r", 5)
-        .attr("fill", "white")
-        .attr("stroke", "red")
-        .attr("stroke-width", "2")
-        .attr("stroke-linecap", "round");
+        .attr("r", 4)
+        .classed("circle", true);
 
     transition();
 }
 
+function renderSolarFlow(speed) {
+    var solarFlowGroup = svg.append('g')
+        .attr('transform', 'translate(120, 190)')
+        .classed('solar', true)
+        .classed('flow', true);
+
+    var solarFlow = solarFlowGroup.append('path')
+        .attr('d', 'M 0 0, V 70, C 0 100, 0 100, 30 100, H 60')
+
+    renderOneFlow(solarFlowGroup, solarFlow, speed);
+}
+
+function renderBatteryFlow(speed, reverse) {
+    var group = svg.append('g')
+        .attr('transform', 'translate(120, 420) scale(1, -1)')
+        .classed('battery', true)
+        .classed('flow', true);
+
+    var flow = group.append('path')
+        .attr('d', 'M 0 0, V 70, C 0 100, 0 100, 30 100, H 60')
+
+    renderOneFlow(group, flow, 30, speed, reverse);
+}
+
+function renderExportFlow(speed) {
+    var group = svg.append('g')
+        .attr('transform', 'translate(390,190) scale(-1,1)')
+        .classed('community', true)
+        .classed('flow', true);
+
+    var flow = group.append('path')
+        .attr('d', 'M 0 0, V 70, C 0 100, 0 100, 30 100, H 60')
+
+    renderOneFlow(group, flow, speed);
+}
+
+function renderGridFlow(speed) {
+    var group = svg.append('g')
+        .attr('transform', 'translate(390,420) scale(-1,-1)')
+        .classed('minigrid', true)
+        .classed('flow', true);
+
+    var flow = group.append('path')
+        .attr('d', 'M 0 0, V 70, C 0 100, 0 100, 30 100, H 60')
+
+    renderOneFlow(group, flow, speed);
+}
 
 function render() {
 
-    var flow2Group = svg.append("g")
-        .attr("transform", "translate(100,100)");
+    renderMinigrid();
+    renderHouse();
+    renderSolar();
+    renderBattery();
+    renderCommunity();
 
-    var flow2Path = flow2Group.append("path")
-        .attr("d", "M 0 0, V 100, C 0 150, 0 150, 50 150, H 400")
-        .attr("fill", "none")
-        .attr("stroke", "red")
-        .attr("stroke-width", "4")
-        .attr("stroke-linecap", "round");
-
-    renderOneFlow(flow2Group, flow2Path, 10);
-
-
-    var flow2Group = svg.append("g")
-        .attr("transform", "translate(200,150)");
-
-    var flow2Path = flow2Group.append("path")
-        .attr("d", "M 0 0, V 100, C 0 150, 0 150, 50 150, H 400")
-        .attr("fill", "none")
-        .attr("stroke", "red")
-        .attr("stroke-width", "4")
-        .attr("stroke-linecap", "round");
-
-    renderOneFlow(flow2Group, flow2Path, 20, true);
+    renderSolarFlow(10);
+    renderBatteryFlow(20, true);
+    renderExportFlow(30);
+    renderGridFlow(5);
 }
 
-renderMinigrid();
-renderHouse();
-renderSolar();
-renderBattery();
-renderCommunity();
 render();
